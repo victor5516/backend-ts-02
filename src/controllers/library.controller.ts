@@ -3,12 +3,14 @@ import {Request, Response} from "express";
 // Importamos el modelo
 import  Book  from "../models/book.interface";
 import { readFile, writeFile } from "../services/library.service";
-import fs from 'fs';
 import { v4 as uuid } from 'uuid'
 
 // Definimos los métodos
 export const getBooks = (req: Request, res: Response) => {
     const library: Book[] = readFile()
+    if (library.length === 0) {
+        return res.status(404).json({ message: 'No hay libros en la biblioteca' })
+    }
     return res.status(200).json(library)
 }
 
