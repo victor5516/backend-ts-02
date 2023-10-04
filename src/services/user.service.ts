@@ -52,7 +52,6 @@ export const updateUserService = async (
 
 export const deleteUserService = async (id: string): Promise<string | null> => {
   const user = await deleteUserStorage(id);
-
   if (!user) return null;
 
   return user._id;
