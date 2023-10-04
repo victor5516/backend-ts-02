@@ -1,71 +1,81 @@
 import { Request, Response } from "express";
 // Importamos el modelo
-import User from "../models/user.interface";
-import { v4 as uuid } from "uuid";
+// import User from "../models/user.interface";
+import {
+  createUserService,
+  deleteUserService,
+  getUserByIdService,
+  getUsersService,
+  updateUserService,
+} from "../services/user.service";
 
-let users: User[] = [];
 //Definimos el metodos
 //Metodo controlador
-export const getUsers = (req: Request, res: Response) => {
-  return res.status(200).json(users);
+export const getUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await getUsersService();
+    return res.status(200).json({ users });
+  } catch (error) {
+    return res.status(500).json({ message: "Ocurrió un error en el servidor" });
+  }
 };
 
-export const getUser=(req:Request, res:Response)=>{
-    //Obtenemos el valor del id.
-    const {id}= req.params
-
-
-    //Hacemos el metodo find para buscar el usuario con ese id
-    const user= users.find((user)=> user.id === id)
-    if(!user){
-        return res.status(404).json({message:'Usuario no encontrado ❌'})
+export const getUser = async (req: Request, res: Response) => {
+  //Obtenemos el valor del id.
+  try {
+    const { id } = req.params;
+    const user = await getUserByIdService(id);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado ❌" });
     }
-    return res.status(200).json({message:'Usuario encontrado ✅', user})
-}
-
-export const createUser = (req: Request, res: Response) => {
-  const body = req.body;
-
-  const user: User = {
-    id: uuid(),
-    ...body,
-  };
-  users.push(user);
-
-  return res.status(201).json({
-    message: `Usuario creado correctamente: ${user.name} || ${user.email}`,
-  });
+    return res.status(200).json({ message: "Usuario encontrado ✅", user });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ message: "Ocurrió un error en el servidor" });
+  }
 };
 
-export const updateUser = (req: Request, res: Response) => {
- const {id}= req.params
-const body =req.body
- const user = users.find((user)=> user.id === id)
+export const createUser = async (req: Request, res: Response) => {
+  try {
+    const body = req.body;
+    const userId = await createUserService(body);
+    return res.status(201).json({
+      message: `Usuario creado correctamente: ${userId}`,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Ocurrió un error en el servidor" });
+  }
+};
 
- if(!user){
-    return res.status(404).json({message:'Usuario no encontrado ❌'})
- }
- user.name= body.name
- user.email=body.email
- user.password=body.password
- //Guardamos los cambios
- return res.status(202).json({message:'Usuario actualizado correctamente ✅'})
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
 
-}
-export const deleteUser = (req:Request, res:Response)=>{
+    const user = await updateUserService(id, body);
 
-    const { id }=req.params
-
-
-    const user = users.find((user)=> user.id ===id);
-    if(!user){
-        return res.status(404).json({message:'Usuario no encontrado ❌'})
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado ❌" });
     }
-    const filterUsers = users.filter((user)=> user.id ===id)
-    users = filterUsers
 
-    return res.status(200).json({message:`Usuario ${user.name}👤 fue eliminado correctamente`});
-
-
-
-}
+    return res
+      .status(202)
+      .json({ message: "Usuario actualizado correctamente ✅", user });
+  } catch (error) {
+    return res.status(500).json({ message: "Ocurrió un error en el servidor" });
+  }
+};
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const userId = await deleteUserService(id);
+    if (!userId) {
+      return res.status(404).json({ message: "Usuario no encontrado ❌" });
+    }
+    return res
+      .status(200)
+      .json({ message: `Usuario ${userId}👤 fue eliminado correctamente` });
+  } catch (error) {
+    return res.status(500).json({ message: "Ocurrió un error en el servidor" });
+  }
+};
