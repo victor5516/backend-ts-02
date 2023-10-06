@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 // Importamos el modelo
 // import User from "../models/user.interface";
 import {
@@ -8,46 +8,69 @@ import {
   getUsersService,
   updateUserService,
 } from "../services/user.service";
+import { ErrorHandler } from "../handlers/error.handler";
+import { ResponseHandler } from "../handlers/response.handler";
 
 //Definimos el metodos
 //Metodo controlador
-export const getUsers = async (req: Request, res: Response) => {
+
+export const getUsers = async (
+  _req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
   try {
     const users = await getUsersService();
-    return res.status(200).json({ users });
+    next(new ResponseHandler(200, users));
   } catch (error) {
-    return res.status(500).json({ message: "Ocurrió un error en el servidor" });
+    next(error);
   }
 };
 
-export const getUser = async (req: Request, res: Response) => {
+export const getUser = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
   //Obtenemos el valor del id.
   try {
     const { id } = req.params;
     const user = await getUserByIdService(id);
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado ❌" });
+      throw new ErrorHandler(400, "Usuario no encontrado ⚠");
     }
-    return res.status(200).json({ message: "Usuario encontrado ✅", user });
+    next(new ResponseHandler(200, user, "Usuario encontrado ✅"));
   } catch (error) {
     console.error(error.message);
-    return res.status(500).json({ message: "Ocurrió un error en el servidor" });
+    next(error);
   }
 };
 
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const body = req.body;
     const userId = await createUserService(body);
-    return res.status(201).json({
-      message: `Usuario creado correctamente: ${userId}`,
-    });
+    next(
+      new ResponseHandler(
+        201,
+        userId,
+        `Usuario creado correctamente: ${userId}`
+      )
+    );
   } catch (error) {
-    return res.status(500).json({ message: "Ocurrió un error en el servidor" });
+    next(error);
   }
 };
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
   try {
     const { id } = req.params;
     const body = req.body;
@@ -55,27 +78,36 @@ export const updateUser = async (req: Request, res: Response) => {
     const user = await updateUserService(id, body);
 
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado ❌" });
+      throw new ErrorHandler(400, "Usuario no encontrado ⚠");
     }
 
-    return res
-      .status(202)
-      .json({ message: "Usuario actualizado correctamente ✅", user });
+    next(
+      new ResponseHandler(202, user, "Usuario actualizado correctamente ✅")
+    );
   } catch (error) {
-    return res.status(500).json({ message: "Ocurrió un error en el servidor" });
+    next(error);
   }
 };
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { id } = req.params;
     const userId = await deleteUserService(id);
     if (!userId) {
-      return res.status(404).json({ message: "Usuario no encontrado ❌" });
+      throw new ErrorHandler(400, "Usuario no encontrado ⚠");
     }
-    return res
-      .status(200)
-      .json({ message: `Usuario ${userId}👤 fue eliminado correctamente` });
+
+    next(
+      new ResponseHandler(
+        202,
+        userId,
+        `Usuario ${userId}👤 fue eliminado correctamente`
+      )
+    );
   } catch (error) {
-    return res.status(500).json({ message: "Ocurrió un error en el servidor" });
+    next(error);
   }
 };

@@ -1,17 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import { checkSchema, validationResult } from "express-validator";
+import { ErrorHandler } from "../handlers/error.handler";
+import { formatRequestError } from "../utils";
 
-export const getUserMiddleware = async (
+export const validateIdMiddleware = async (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ) => {
-  //   const { id } = req.params;
-
-  //   if (id !== "651d5c90ed66037f09fd48b9") {
-  //     return res.status(404).json({ message: "este id no es valido" });
-  //   }
-
   await checkSchema({
     id: {
       in: ["params"],
@@ -22,9 +18,8 @@ export const getUserMiddleware = async (
   }).run(req);
 
   const errors = validationResult(req);
-  console.log(errors.isEmpty());
   if (!errors.isEmpty()) {
-    return res.status(404).json(errors.array());
+    next(new ErrorHandler(406, formatRequestError(errors.array())));
   }
 
   next();
@@ -32,26 +27,32 @@ export const getUserMiddleware = async (
 
 export const createUserMiddleware = async (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ) => {
   await checkSchema({
     name: {
       in: ["body"],
       notEmpty: {
-        errorMessage: "Este campo es requerido",
+        errorMessage: "El campo name es requerido",
       },
     },
     password: {
       in: ["body"],
       notEmpty: {
-        errorMessage: "Este campo es requerido",
+        errorMessage: "El campo password es requerido",
+        bail: true,
+      },
+      isLength: {
+        options: { min: 8 },
+        errorMessage: "La contraseña debe tener al menos 8 caracteres",
       },
     },
     email: {
       in: ["body"],
       notEmpty: {
-        errorMessage: "Este campo es requerido",
+        errorMessage: "El campo email requerido",
+        bail: true,
       },
       isEmail: {
         errorMessage: "El email no tiene un formato válido",
@@ -61,8 +62,45 @@ export const createUserMiddleware = async (
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(404).json(errors.array());
+    next(new ErrorHandler(406, formatRequestError(errors.array())));
   }
 
+  next();
+};
+
+export const updateUserMiddleware = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
+  await checkSchema({
+    name: {
+      in: ["body"],
+      optional: true,
+      isString: {
+        errorMessage: "El campo name deber ser una cadena de texto",
+      },
+    },
+    password: {
+      in: ["body"],
+      optional: true,
+      isLength: {
+        options: { min: 8 },
+        errorMessage: "La contraseña debe tener al menos 8 caracteres",
+      },
+    },
+    email: {
+      in: ["body"],
+      optional: true,
+      isEmail: {
+        errorMessage: "El email no tiene un formato válido",
+      },
+    },
+  }).run(req);
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    next(new ErrorHandler(406, formatRequestError(errors.array())));
+  }
   next();
 };

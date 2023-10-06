@@ -10,7 +10,8 @@ import {
 
 import {
   createUserMiddleware,
-  getUserMiddleware,
+  validateIdMiddleware,
+  updateUserMiddleware,
 } from "../../middlewares/user.middleware";
 
 // creamos una instancia de Router
@@ -18,9 +19,9 @@ const router = Router();
 //Creamos las rutas
 router.get("/user", getUsers);
 router.post("/user", createUserMiddleware, createUser);
-router.get("/user/:id", getUserMiddleware, getUser);
-router.delete("/user/:id", deleteUser);
-router.put("/user/:id", updateUser);
+router.get("/user/:id", validateIdMiddleware, getUser);
+router.delete("/user/:id", validateIdMiddleware, deleteUser);
+router.put("/user/:id", validateIdMiddleware, updateUserMiddleware, updateUser);
 //Exportamos la ruta
 
 export default router;
