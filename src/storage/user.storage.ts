@@ -15,6 +15,11 @@ export const getUserByIdStorage = async (id: string): Promise<IUserSchema> => {
   return user;
 };
 
+export const getUserByEmailStorage = async (email: string): Promise<IUserSchema> => {
+  const user = await User.findOne({email});
+  return user;
+}
+
 export const getUsersStorage = async (): Promise<IUserSchema[]> => {
   const users = await User.find();
   return users;

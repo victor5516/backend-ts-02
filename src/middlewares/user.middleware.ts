@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { checkSchema, validationResult } from "express-validator";
 import { ErrorHandler } from "../handlers/error.handler";
 import { formatRequestError } from "../utils";
-
+import jwt from "jsonwebtoken";
 export const validateIdMiddleware = async (
   req: Request,
   _res: Response,
@@ -104,3 +104,54 @@ export const updateUserMiddleware = async (
   }
   next();
 };
+
+export const loginUserMiddleware = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
+  await checkSchema({
+    password: {
+      in: ["body"],
+      notEmpty: {
+        errorMessage: "El campo password es requerido",
+        bail: true,
+      },
+    },
+    email: {
+      in: ["body"],
+      notEmpty: {
+        errorMessage: "El campo email requerido",
+        bail: true,
+      },
+      isEmail: {
+        errorMessage: "El email no tiene un formato válido",
+      },
+    },
+  }).run(req);
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    next(new ErrorHandler(406, formatRequestError(errors.array())));
+  }
+
+  next();
+}
+
+export const verifyTokenMiddleware = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
+  const token = req.header('auth-token');
+  if (!token) {
+    throw new ErrorHandler(401, "No se ha enviado un token de autorización");
+  }
+  const tokenPayload = jwt.verify(token, process.env.TOKEN_SECRET);
+  if (!tokenPayload) {
+    throw new ErrorHandler(401, "Usuario no autorizado");
+  }
+
+  req.body.user = tokenPayload;
+  next();
+}

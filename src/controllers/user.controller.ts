@@ -7,6 +7,7 @@ import {
   getUserByIdService,
   getUsersService,
   updateUserService,
+  loginUserService
 } from "../services/user.service";
 import { ErrorHandler } from "../handlers/error.handler";
 import { ResponseHandler } from "../handlers/response.handler";
@@ -37,7 +38,7 @@ export const getUser = async (
     const { id } = req.params;
     const user = await getUserByIdService(id);
     if (!user) {
-      throw new ErrorHandler(400, "Usuario no encontrado ⚠");
+      throw new ErrorHandler(404, "Usuario no encontrado ⚠");
     }
     next(new ResponseHandler(200, user, "Usuario encontrado ✅"));
   } catch (error) {
@@ -54,6 +55,9 @@ export const createUser = async (
   try {
     const body = req.body;
     const userId = await createUserService(body);
+    if (!userId) {
+      throw new ErrorHandler(400, "Usuario ya existe ⚠");
+    }
     next(
       new ResponseHandler(
         201,
@@ -111,3 +115,22 @@ export const deleteUser = async (
     next(error);
   }
 };
+
+export const loginUser = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
+  const { email, password } = req.body;
+
+  const user = await loginUserService(email, password);
+
+  if(!user) {
+    throw new ErrorHandler(400, 'Email o contraseña incorrectos ⚠')
+  }
+
+  next(new ResponseHandler(200, user, 'Usuario logueado correctamente ✅'))
+
+
+
+}
