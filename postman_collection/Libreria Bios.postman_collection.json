@@ -1,0 +1,521 @@
+{
+	"info": {
+		"_postman_id": "e8ddd8d6-f40a-43e6-9b6b-f7ee00478cf5",
+		"name": "Libreria Bios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24465776"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Obtener usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Federico Pelanda",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "fedePelanda@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123445678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user/651cd0b69d47912990e710db-123123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"651cd0b69d47912990e710db-123123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user/d177aa20-d6a8-4705-840b-d33867f293fe",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"d177aa20-d6a8-4705-840b-d33867f293fe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Victor Perez",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "victorperez@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user/f7c0865a-987e-44c4-8123-a6f89ff28b85",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"f7c0865a-987e-44c4-8123-a6f89ff28b85"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "vD30OJQNbjSzMLb1GcHtnY7LbnBfSV2tdcgLGQJJ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "fedePelanda@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123445678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Libros",
+			"item": [
+				{
+					"name": "Obtener libros",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "vD30OJQNbjSzMLb1GcHtnY7LbnBfSV2tdcgLGQJJ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTI0Nzk3YjQ2NTM0NGI1YjY2N2U0ZWIiLCJuYW1lIjoiRmVkZXJpY28gUGVsYW5kYSIsImVtYWlsIjoiZmVkZVBlbGFuZGFAZW1haWwuY29tIiwiaWF0IjoxNjk3MDY0MzQzLCJleHAiOjE2OTcxNTA3NDN9.GM_raTXzHnXTf4deOr9Gx8lJYpmM1el2DPeF_fp7eqM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/book/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"book",
+								""
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Cien años de solead",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener un libro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/book/79cefe27-84ec-4fee-8fa7-e75473487bdb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"book",
+								"79cefe27-84ec-4fee-8fa7-e75473487bdb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear un libro",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTI0Nzk3YjQ2NTM0NGI1YjY2N2U0ZWIiLCJuYW1lIjoiRmVkZXJpY28gUGVsYW5kYSIsImVtYWlsIjoiZmVkZVBlbGFuZGFAZW1haWwuY29tIiwiaWF0IjoxNjk3MDY0MzQzLCJleHAiOjE2OTcxNTA3NDN9.GM_raTXzHnXTf4deOr9Gx8lJYpmM1el2DPeF_fp7eqM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "Juego de tronos",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "Geore RR Martin",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "ABC124",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Medieval",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/book",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Libro",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "El señor de los anillos",
+									"type": "text"
+								},
+								{
+									"key": "author",
+									"value": "Jorge RR Tolkien",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "ABC123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/book/651b416dec4051fef42d12b3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"651b416dec4051fef42d12b3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Libro",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/book/651b44859bb818489fc874bb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"651b44859bb818489fc874bb"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "prestamos",
+			"item": [
+				{
+					"name": "crearPrestamo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTI0Nzk3YjQ2NTM0NGI1YjY2N2U0ZWIiLCJuYW1lIjoiRmVkZXJpY28gUGVsYW5kYSIsImVtYWlsIjoiZmVkZVBlbGFuZGFAZW1haWwuY29tIiwiaWF0IjoxNjk4MjcwNjQwLCJleHAiOjE2OTgzNTcwNDB9.jczANLu3QxvoAUsz35CeWHR2ZeLml2c9C2xpiGtgNWI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "bookId",
+									"value": "651ab8741321d6d842d4be84",
+									"type": "text"
+								},
+								{
+									"key": "loanDays",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/loan/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"loan",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener prestamos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTI0Nzk3YjQ2NTM0NGI1YjY2N2U0ZWIiLCJuYW1lIjoiRmVkZXJpY28gUGVsYW5kYSIsImVtYWlsIjoiZmVkZVBlbGFuZGFAZW1haWwuY29tIiwiaWF0IjoxNjk4MjcwNjQwLCJleHAiOjE2OTgzNTcwNDB9.jczANLu3QxvoAUsz35CeWHR2ZeLml2c9C2xpiGtgNWI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "bookId",
+									"value": "651ab8741321d6d842d4be84",
+									"type": "text"
+								},
+								{
+									"key": "loanDays",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/loan/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"loan",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refund",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTI0Nzk3YjQ2NTM0NGI1YjY2N2U0ZWIiLCJuYW1lIjoiRmVkZXJpY28gUGVsYW5kYSIsImVtYWlsIjoiZmVkZVBlbGFuZGFAZW1haWwuY29tIiwiaWF0IjoxNjk4MjcwNjQwLCJleHAiOjE2OTgzNTcwNDB9.jczANLu3QxvoAUsz35CeWHR2ZeLml2c9C2xpiGtgNWI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/loan/refund/653994de376554269b5492b6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"loan",
+								"refund",
+								"653994de376554269b5492b6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
