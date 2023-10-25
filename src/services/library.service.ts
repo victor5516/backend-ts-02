@@ -10,8 +10,16 @@ export const createBookService = async (book: IBook) => {
     return newBook;
 }
 
-export const getBooksService = async () => {
-    const books: IBook[] = await Book.find();
+export const getBooksService = async (query: any) => {
+    let filter = {};
+    const { title, author, code } = query;
+    if(title) filter['title'] = title;
+    if(author) filter['author'] = author;
+    if(code) filter['code'] = code;
+
+
+    const books: IBook[] = await Book.find(filter);
+
     return books;
 }
 

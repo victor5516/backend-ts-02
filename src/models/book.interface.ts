@@ -1,9 +1,11 @@
 
 interface IBook {
-    id: string;
     title: string;
+    description: string;
     author: string;
-
+    available: boolean;
+    code: string;
 }
+
 
 export default IBook;

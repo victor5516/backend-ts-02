@@ -123,13 +123,16 @@ export const loginUser = async (
 ) => {
   const { email, password } = req.body;
 
-  const user = await loginUserService(email, password);
+  const token = await loginUserService(email, password);
 
-  if(!user) {
+  if(!token) {
     throw new ErrorHandler(400, 'Email o contraseña incorrectos ⚠')
   }
-
-  next(new ResponseHandler(200, user, 'Usuario logueado correctamente ✅'))
+  const result = {
+    token,
+    email
+  }
+  next(new ResponseHandler(200, result, 'Usuario logueado correctamente ✅'))
 
 
 

@@ -21,7 +21,7 @@ export const handleError = (
   if (!(err instanceof ErrorHandler)) {
     message = "Ocurrió un error en el servidor ⛔";
   }
-
+  console.error(err);
   res.status(statusCode).json({
     status: "ERROR",
     statusCode,

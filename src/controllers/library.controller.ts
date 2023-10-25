@@ -7,7 +7,8 @@ import {  createBookService, getBooksService, getBookService, updateBookService,
 
 // Definimos los métodos
 export const getBooks = async (req: Request, res: Response) => {
-    const library: IBook[] = await getBooksService()
+    const query = req.query
+    const library: IBook[] = await getBooksService(query)
     if (library.length === 0) {
         return res.status(404).json({ message: 'No hay libros en la biblioteca' })
     }

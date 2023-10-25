@@ -138,20 +138,3 @@ export const loginUserMiddleware = async (
   next();
 }
 
-export const verifyTokenMiddleware = async (
-  req: Request,
-  _res: Response,
-  next: NextFunction
-) => {
-  const token = req.header('auth-token');
-  if (!token) {
-    throw new ErrorHandler(401, "No se ha enviado un token de autorización");
-  }
-  const tokenPayload = jwt.verify(token, process.env.TOKEN_SECRET);
-  if (!tokenPayload) {
-    throw new ErrorHandler(401, "Usuario no autorizado");
-  }
-
-  req.body.user = tokenPayload;
-  next();
-}
